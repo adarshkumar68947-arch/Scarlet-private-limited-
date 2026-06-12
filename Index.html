@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capital Pro - Secure Access</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+            background-image: linear-gradient(135deg, #f3f4f6 25%, transparent 25%, transparent 50%, #f3f4f6 50%, #f3f4f6 75%, transparent 75%, transparent);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div id="loginPanel" class="w-full max-w-md bg-white rounded-3xl p-6 shadow-xl border border-gray-100">
+        <div class="flex flex-col items-center justify-center mt-4 mb-6">
+            <div class="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-200">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            </div>
+            <h1 class="text-xl font-black text-blue-900 tracking-wider mt-2">CAPITAL PRO</h1>
+        </div>
+
+        <h2 class="text-lg font-bold text-gray-800 text-center mb-4">Welcome back !</h2>
+        
+        <div class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Phone Number</label>
+                <div class="flex rounded-xl border border-gray-200 overflow-hidden bg-gray-50/50 focus-within:border-blue-500">
+                    <span class="bg-gray-100 px-3 py-3 text-gray-500 font-medium border-r border-gray-200 text-sm">091</span>
+                    <input type="tel" id="loginPhone" placeholder="Enter phone number" class="w-full px-3 py-3 text-sm outline-none bg-transparent text-gray-700">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter password" class="w-full rounded-xl border border-gray-200 px-3 py-3 text-sm bg-gray-50/50 outline-none focus:border-blue-500">
+            </div>
+
+            <button onclick="checkLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-200 transition-all active:scale-95">Sign In</button>
+            <button onclick="togglePanel('register')" class="w-full text-blue-600 font-bold py-2 text-sm">No account? Register</button>
+        </div>
+    </div>
+
+    <div id="registerPanel" class="w-full max-w-md bg-white rounded-3xl p-6 shadow-xl border border-gray-100 hidden">
+        <div class="flex flex-col items-center justify-center mt-4 mb-6">
+            <div class="w-14 h-14 bg-green-600 rounded-full flex items-center justify-center shadow-lg shadow-green-200">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+            </div>
+            <h1 class="text-xl font-black text-green-900 tracking-wider mt-2">REGISTER</h1>
+        </div>
+
+        <h2 class="text-lg font-bold text-gray-800 text-center mb-4">Create your Account</h2>
+
+        <div class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Phone Number</label>
+                <div class="flex rounded-xl border border-gray-200 overflow-hidden bg-gray-50/50 focus-within:border-green-500">
+                    <span class="bg-gray-100 px-3 py-3 text-gray-500 font-medium border-r border-gray-200 text-sm">091</span>
+                    <input type="tel" id="regPhone" placeholder="Enter phone number" class="w-full px-3 py-3 text-sm outline-none bg-transparent text-gray-700">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Create Password</label>
+                <input type="password" id="regPassword" placeholder="Minimum 6 characters" class="w-full rounded-xl border border-gray-200 px-3 py-3 text-sm bg-gray-50/50 outline-none focus:border-green-500">
+            </div>
+
+            <button onclick="saveRegistration()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-green-200 transition-all active:scale-95">Register Now</button>
+            <button onclick="togglePanel('login')" class="w-full text-green-600 font-bold py-2 text-sm">Already have an account? Login</button>
+        </div>
+    </div>
+
+    <script>
+        // Switch between forms
+        function togglePanel(panelName) {
+            if(panelName === 'login') {
+                document.getElementById('loginPanel').classList.remove('hidden');
+                document.getElementById('registerPanel').classList.add('hidden');
+            } else {
+                document.getElementById('loginPanel').classList.add('hidden');
+                document.getElementById('registerPanel').classList.remove('hidden');
+            }
+        }
+
+        // Save data to LocalStorage
+        function saveRegistration() {
+            const phone = document.getElementById('regPhone').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
+
+            if(!phone || !password) {
+                alert('Bhai, sabhi details fill karo!');
+                return;
+            }
+
+            localStorage.setItem('storedPhone', phone);
+            localStorage.setItem('storedPassword', password);
+            
+            alert('Registration Successful! Ab setup wale credentials se login kijiye.');
+            togglePanel('login');
+        }
+
+        // Check login and redirect to home.html
+        function checkLogin() {
+            const phone = document.getElementById('loginPhone').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            const savedPhone = localStorage.getItem('storedPhone');
+            const savedPassword = localStorage.getItem('storedPassword');
+
+            if(phone === savedPhone && password === savedPassword && phone !== null) {
+                alert('Login Successful!');
+                // It will try to open home.html in the same repository folder
+                window.location.href = 'home.html';
+            } else {
+                alert('Invalid Details! Pehle account register kijiye.');
+            }
+        }
+    </script>
+</body>
+  </html>
