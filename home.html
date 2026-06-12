@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capital Pro - Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-white font-sans min-h-screen pb-28 relative overflow-x-hidden">
+
+    <div class="bg-gradient-to-b from-blue-950/40 via-slate-900/90 to-transparent p-6 rounded-b-[2.5rem] border-b border-white/10 shadow-2xl backdrop-blur-md">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-14 h-14 bg-gradient-to-tr from-blue-500 to-teal-500 rounded-2xl flex items-center justify-center border border-white/20 text-2xl shadow-lg shadow-blue-500/10">
+                    <i class="fa-solid fa-user-gear text-white"></i>
+                </div>
+                <div>
+                    <h2 id="userDisplayId" class="text-sm font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-300">ID: Loading...</h2>
+                    <div class="flex items-center space-x-1.5 mt-0.5">
+                        <span class="bg-amber-500/20 text-amber-400 text-[9px] font-black px-2 py-0.5 rounded-full border border-amber-500/30 uppercase tracking-widest">VIP Node 0</span>
+                    </div>
+                </div>
+            </div>
+            <button onclick="clearUserSession()" class="w-11 h-11 bg-white/5 hover:bg-red-500/20 rounded-xl flex items-center justify-center border border-white/10 text-red-400 transition-all active:scale-95 shadow-lg">
+                <i class="fa-solid fa-power-off text-base"></i>
+            </button>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2.5 mt-6">
+            <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-md rounded-2xl p-3 border border-white/10 text-center shadow-inner">
+                <p class="text-[9px] uppercase font-black text-gray-400 tracking-widest">Main Vault</p>
+                <p class="text-base font-black text-blue-400 mt-1">₹<span id="userWallet">0.00</span></p>
+            </div>
+            <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-md rounded-2xl p-3 border border-white/10 text-center shadow-inner">
+                <p class="text-[9px] uppercase font-black text-gray-400 tracking-widest">Share Profit</p>
+                <p class="text-base font-black text-teal-400 mt-1">₹0.00</p>
+            </div>
+            <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-md rounded-2xl p-3 border border-white/10 text-center shadow-inner">
+                <p class="text-[9px] uppercase font-black text-gray-400 tracking-widest">Node Return</p>
+                <p class="text-base font-black text-purple-400 mt-1">₹<span id="userEarnings">0.00</span></p>
+            </div>
+        </div>
+    </div>
+
+    <main class="px-4 mt-2 max-w-md mx-auto space-y-6">
+
+        <section id="nodesTab" class="space-y-4">
+            <div class="bg-gradient-to-r from-blue-500/10 to-teal-500/5 border border-blue-500/20 rounded-2xl p-3 flex items-center space-x-3 text-blue-300 shadow-xl backdrop-blur-md">
+                <i class="fa-solid fa-circle-nodes text-teal-400 animate-spin-slow text-lg"></i>
+                <p class="text-[11px] font-semibold leading-relaxed">Cloud Notice: Hardware device nodes allocation counters are fully online.</p>
+            </div>
+
+            <div class="bg-gradient-to-r from-slate-900 to-gray-900 p-4 rounded-2xl shadow-2xl border border-white/5 flex justify-between items-center relative overflow-hidden">
+                <div>
+                    <h3 class="font-black text-xs text-gray-200 uppercase tracking-wider">Device Node Yields</h3>
+                    <p class="text-[11px] text-gray-400 mt-0.5">Collect your hourly accumulated return</p>
+                </div>
+                <button onclick="claimActiveYields()" class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-black text-[11px] px-4 py-2.5 rounded-xl shadow-lg shadow-blue-500/20 active:scale-95 transition-transform uppercase tracking-wider flex items-center space-x-1">
+                    <i class="fa-solid fa-circle-dollar-to-slot"></i> <span>Take All</span>
+                </button>
+            </div>
+
+            <h4 class="text-[10px] font-black uppercase text-gray-500 tracking-widest pt-2 px-1">Hardware Devices Menu</h4>
+            
+            <div class="bg-white/[0.03] backdrop-blur-xl rounded-3xl p-4 shadow-xl border border-white/10 flex items-center space-x-4 relative overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1585624454645-5f5146b2a487?w=300&auto=format&fit=crop&q=80" alt="Purifier Device" class="w-20 h-20 object-cover rounded-2xl border border-white/10 bg-slate-900 shadow-md">
+                <div class="flex-1">
+                    <h5 class="font-black text-sm text-white tracking-wide">Portable Water Purification</h5>
+                    <div class="grid grid-cols-2 gap-y-1 mt-2 text-[11px]">
+                        <p class="text-gray-400">Daily Return: <span class="text-blue-400 font-black">₹12</span></p>
+                        <p class="text-gray-400">Node Cost: <span class="text-emerald-400 font-black">₹0</span></p>
+                        <p class="text-gray-400 col-span-2">Deployment Cycle: <span class="text-gray-300 font-medium">3 Days</span></p>
+                    </div>
+                    <button onclick="triggerNodeDeployment(0, 12)" class="w-full mt-3 bg-white/10 hover:bg-blue-600/30 text-blue-400 font-black text-[11px] py-2 rounded-xl transition-all border border-blue-500/20 uppercase tracking-wider">Deploy Free System</button>
+                </div>
+            </div>
+
+            <div class="bg-white/[0.03] backdrop-blur-xl rounded-3xl p-4 shadow-xl border border-white/10 flex items-center space-x-4 relative overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1579822396900-3a6f7d52317b?w=300&auto=format&fit=crop&q=80" alt="Commercial System" class="w-20 h-20 object-cover rounded-2xl border border-white/10 bg-slate-900 shadow-md">
+                <div class="flex-1">
+                    <h5 class="font-black text-sm text-white tracking-wide">H302 Commercial Purifier</h5>
+                    <div class="grid grid-cols-2 gap-y-1 mt-2 text-[11px]">
+                        <p class="text-gray-400">Daily Return: <span class="text-blue-400 font-black">₹38</span></p>
+                        <p class="text-gray-400">Node Cost: <span class="text-emerald-400 font-black">₹1,099</span></p>
+                        <p class="text-gray-400 col-span-2">Deployment Cycle: <span class="text-gray-300 font-medium">80 Days</span></p>
+                    </div>
+                    <button onclick="triggerNodeDeployment(1099, 38)" class="w-full mt-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-black text-[11px] py-2 rounded-xl shadow-md active:scale-95 transition-transform uppercase tracking-wider">Purchase Cluster</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="checkinTab" class="space-y-4 hidden">
+            <div class="bg-white/[0.02] backdrop-blur-xl rounded-3xl p-6 text-center shadow-2xl border border-white/10 space-y-4 max-w-sm mx-auto">
+                <div class="w-16 h-16 bg-gradient-to-tr from-amber-500 to-orange-600 text-white rounded-2xl flex items-center justify-center text-2xl mx-auto shadow-lg shadow-orange-500/20 transform rotate-3">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <div>
+                    <h3 class="font-black text-base text-white tracking-wide">Daily Relay Attendance</h3>
+                    <p class="text-xs text-gray-400 mt-1 leading-relaxed">Ping the validator network node panel daily to secure your complimentary ₹10 wallet reward instantly.</p>
+                </div>
+                <button onclick="executeDailyCheckin()" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-black py-3 rounded-xl shadow-lg shadow-orange-500/20 active:scale-95 transition-transform uppercase tracking-wider text-[11px]">Verify Status (+₹10.00)</button>
+            </div>
+        </section>
+
+        <section id="terminalTab" class="space-y-4 hidden">
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="toggleModal('rechargeModal', true)" class="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-900 p-4 rounded-2xl shadow-xl text-left flex justify-between items-center border border-white/10 active:scale-95 transition-transform group">
+                    <div>
+                        <p class="font-black text-sm tracking-wide">Inject Funds</p>
+                        <p class="text-[10px] text-blue-200 opacity-80 mt-0.5">Simulate UPI Recharge</p>
+                    </div>
+                    <i class="fa-solid fa-wallet text-xl text-white/30 group-hover:text-white transition-colors"></i>
+                </button>
+                <button onclick="toggleModal('rechargeModal', true)" class="bg-gradient-to-br from-purple-600 via-purple-700 to-pink-900 p-4 rounded-2xl shadow-xl text-left flex justify-between items-center border border-white/10 active:scale-95 transition-transform group">
+                    <div>
+                        <p class="font-black text-sm tracking-wide">Settlement</p>
+                        <p class="text-[10px] text-purple-200 opacity-80 mt-0.5">Bank Payout Link</p>
+                    </div>
+                    <i class="fa-solid fa-building-columns text-xl text-white/30 group-hover:text-white transition-colors"></i>
+                </button>
+            </div>
+
+            <div class="bg-white/[0.02] backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 overflow-hidden divide-y divide-white/5">
+                <div class="flex items-center justify-between p-4 hover:bg-white/5 cursor-pointer transition-colors">
+                    <div class="flex items-center space-x-3 text-gray-200 text-sm font-semibold"><i class="fa-solid fa-credit-card text-blue-400 w-5 text-center"></i><span>Bind Bank Statement Info</span></div>
+                    <i class="fa-solid fa-chevron-right text-gray-600 text-xs"></i>
+                </div>
+                <div class="flex items-center justify-between p-4 hover:bg-white/5 cursor-pointer transition-colors">
+                    <div class="flex items-center space-x-3 text-gray-200 text-sm font-semibold"><i class="fa-solid fa-file-invoice-dollar text-emerald-400 w-5 text-center"></i><span>Internal Audit Ledgers</span></div>
+                    <i class="fa-solid fa-chevron-right text-gray-600 text-xs"></i>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <nav class="fixed bottom-0 left-0 right-0 bg-slate-900/90 backdrop-blur-xl border-t border-white/10 shadow-2xl z-40 max-w-md mx-auto rounded-t-[2rem] flex items-center justify-around py-2.5 px-3">
+        <button onclick="routeTab('nodes', this)" class="bottom-nav-action flex flex-col items-center space-y-1 text-blue-400 transition-all py-1 px-4 rounded-xl">
+            <i class="fa-solid fa-microchip text-base"></i><span class="text-[9px] font-black tracking-widest uppercase">Nodes</span>
+        </button>
+        <button onclick="routeTab('checkin', this)" class="bottom-nav-action flex flex-col items-center space-y-1 text-gray-500 hover:text-gray-300 transition-all py-1 px-4 rounded-xl">
+            <i class="fa-solid fa-calendar-check text-base"></i><span class="text-[9px] font-black tracking-widest uppercase">Check-In</span>
+        </button>
+        <button onclick="routeTab('terminal', this)" class="bottom-nav-action flex flex-col items-center space-y-1 text-gray-500 hover:text-gray-300 transition-all py-1 px-4 rounded-xl">
+            <i class="fa-solid fa-sliders text-base"></i><span class="text-[9px] font-black tracking-widest uppercase">Terminal</span>
+        </button>
+    </nav>
+
+    <div id="rechargeModal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden backdrop-blur-md">
+        <div class="bg-slate-900 w-full max-w-sm rounded-3xl p-6 shadow-2xl border border-white/10 space-y-4">
+            <h3 class="font-black text-base text-white tracking-wide uppercase text-blue-400">Inject Simulated Balance</h3>
+            <p class="text-xs text-gray-400">Transfer testing cash tokens to the system target array handle:</p>
+            <div class="bg-black/40 border border-white/5 rounded-xl p-3 text-center">
+                <p class="text-[9px] text-gray-500 uppercase font-black tracking-wider">Destination Vector Handle</p>
+                <p class="text-xs font-black text-blue-400 mt-1 select-all">capitalpro@upi</p>
+            </div>
+            <input type="number" id="utrSerialCode" placeholder="Enter mock 12-digit transaction UTR" class="w-full rounded-xl border border-white/10 px-3 py-3 text-sm bg-black/40 outline-none focus:border-blue-500 text-white placeholder-gray-600">
+            <div class="flex space-x-3 pt-2">
+                <button onclick="toggleModal('rechargeModal', false)" class="w-1/2 bg-white/5 text-gray-300 font-bold py-3 rounded-xl text-xs uppercase tracking-wider border border-white/5">Cancel</button>
+                <button onclick="executeMockDeposit()" class="w-1/2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-black py-3 rounded-xl text-xs uppercase tracking-wider shadow-lg shadow-blue-500/20">Load ₹500</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Identify current specific user session context
+        const activeUserToken = localStorage.getItem('storedPhone');
+        if(!activeUserToken) {
+            alert("Security Error: Active session missing. Routing to entry lock.");
+            window.location.href = 'index.html';
+        } else {
+            document.getElementById('userDisplayId').innerText = "Terminal ID: " + activeUserToken;
+        }
+
+        // UNIQUE STORAGE KEYS FOR EACH ACCOUNT
+        const walletStorageKey = `wallet_bal_${activeUserToken}`;
+        const earningsStorageKey = `accumulated_bal_${activeUserToken}`;
+
+        // 2. Fetch specific independent balance for this specific account
+        let currentWalletBal = parseFloat(localStorage.getItem(walletStorageKey)) || 0.00;
+        let currentEarningsBal = parseFloat(localStorage.getItem(earningsStorageKey)) || 0.00;
+
+        function refreshAccountDisplay() {
+            document.getElementById('userWallet').innerText = currentWalletBal.toFixed(2);
+            document.getElementById('userEarnings').innerText = currentEarningsBal.toFixed(2);
+            localStorage.setItem(walletStorageKey, currentWalletBal);
+            localStorage.setItem(earningsStorageKey, currentEarningsBal);
+        }
+        refreshAccountDisplay();
+
+        // 3. App Core Switching Router
+        function routeTab(tabIdentifier, element) {
+            document.getElementById('nodesTab').classList.add('hidden');
+            document.getElementById('checkinTab').classList.add('hidden');
+            document.getElementById('terminalTab').classList.add('hidden');
+
+            document.getElementById(tabIdentifier + 'Tab').classList.remove('hidden');
+
+            document.querySelectorAll('.bottom-nav-action').forEach(btn => {
+                btn.classList.remove('text-blue-400');
+                btn.classList.add('text-gray-500');
+            });
+            element.classList.remove('text-gray-500');
+            element.classList.add('text-blue-400');
+        }
+
+        // 4. Reactive Operational Logic Functions
+        function triggerNodeDeployment(cost, individualYield) {
+            if(currentWalletBal < cost) {
+                alert("Protocol Reject: Account balance depleted. Open Terminal tab to load mock cash tokens.");
+                return;
+            }
+            currentWalletBal -= cost;
+            currentEarningsBal += individualYield;
+            refreshAccountDisplay();
+            alert("Success: Hardware cluster initialized and linked onto your specific account token.");
+        }
+
+        function claimActiveYields() {
+            if(currentEarningsBal <= 0) {
+                alert("Data Null: No pending distribution yields available to harvest right now.");
+                return;
+            }
+            currentWalletBal += currentEarningsBal;
+            alert(`Collected: Successfully loaded ₹${currentEarningsBal.toFixed(2)} profits into your active vault.`);
+            currentEarningsBal = 0;
+            refreshAccountDisplay();
+        }
+
+        function executeDailyCheckin() {
+            currentWalletBal += 10.00;
+            refreshAccountDisplay();
+            alert("Attendance Registered: Complementary security reward (+₹10.00) added to your personal wallet container.");
+        }
+
+        // Modal Controls
+        function toggleModal(modalId, show) {
+            const modal = document.getElementById(modalId);
+            if(show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        function executeMockDeposit() {
+            const utrCode = document.getElementById('utrSerialCode').value.trim();
+            if(utrCode.length < 12) {
+                alert("Validation Fail: Input string sequence must equal exactly 12-digits.");
+                return;
+            }
+            currentWalletBal += 500.00;
+            refreshAccountDisplay();
+            toggleModal('rechargeModal', false);
+            alert("Signal Approved: Simulated target cash token approved. Added ₹500.00 to this terminal session.");
+        }
+
+        function clearUserSession() {
+            // Unlinking active login token, but keeping user balances safe inside browser storage
+            localStorage.removeItem('storedPhone');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+  </html>
